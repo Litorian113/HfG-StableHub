@@ -26,6 +26,15 @@
     type?: string;
   }
 
+  interface StoredImage {
+    id?: number;
+    prompt: string;
+    imageUrls: string[];
+    timestamp?: string | Date;
+    styles?: string[];
+    type?: string;
+  }
+
   interface TooltipData {
     [key: string]: string;
   }
@@ -66,7 +75,7 @@
   // Verbesserte Filterung - strikter Check auf Typ
   const unsubscribe = generatedImages.subscribe(history => {
     // Nur exakt vom Typ "text-to-image" anzeigen
-    generatedResults = history.filter(entry => entry.type === "text-to-image") as GeneratedResult[];
+    generatedResults = history.filter((entry: GeneratedResult) => entry.type === "text-to-image") as GeneratedResult[];
     console.log("[TextToImage] Filtered results:", generatedResults.length, 
                 "von insgesamt", history.length);
   });
@@ -171,7 +180,7 @@
     
     // Lade gespeicherte Bilder aus dem localStorage
     if ($generatedImages.length > 0) {
-      generatedResults = $generatedImages.map(entry => ({
+      generatedResults = $generatedImages.map((entry: StoredImage) => ({
         id: entry.id || Date.now(),
         prompt: entry.prompt,
         imageUrls: entry.imageUrls,
